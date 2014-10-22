@@ -1,9 +1,15 @@
-# Joey Maalouf
-# a more advanced physics simulation with a bouncing ball
+# JLM - Python Gravity Ball
+# Copyright (c) 2014 Joey Luke Maalouf
 
-import sys
-import time
+# import pygame for init, font, display, Rect, event, QUIT, draw
 import pygame
+#import sys for exit
+import sys
+#import time for sleep
+import time
+
+# -- initialization ------------------------------------------------------------
+# Start up pygame with init(), then create and assign our variables.
 pygame.init()
 
 # objects
@@ -11,8 +17,7 @@ myfont = pygame.font.SysFont("monospace", 16)
 size = width, height = 640, 480
 screen = pygame.display.set_mode(size)
 diameter = 8
-startx = 0
-starty = 0
+startx = starty = 0
 ballrect = pygame.Rect(startx, starty, diameter, diameter)
 trace = []
 
@@ -34,6 +39,7 @@ Vy = 0
 Ax = 0
 Ay = gravity
 
+# game loop
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,12 +59,14 @@ while 1:
     else:
         Ax = 0
 
+    # change the ball's velocity by its acceleration
     Vx += Ax
     Vy += Ay
-
+    # change the ball's position by its velocity
     ballrect.centerx += Vx
     ballrect.centery += Vy
 
+    # check for the ball bouncing off one of the sides of the screen
     if ballrect.left < 0:
         Vx = -Vx
     if ballrect.right > width:
@@ -69,6 +77,8 @@ while 1:
         Vy = -Vy + Ay
         ballrect.bottom = height
 
+    # draw the black background, then the red trace dots, then the ball's
+    # velocity and acceleration, then the ball itself
     screen.fill(black)
     trace.append(ballrect.center)
     for dot in trace:
@@ -82,6 +92,7 @@ while 1:
     pygame.draw.circle(screen, white, ballrect.center, round(ballrect.width/2))
     pygame.display.flip()
 
+# finish up by informing the user of how long it took the ball to fully stop
 dtext = "done in %03d frames" % len(trace)
 dlabel = myfont.render(dtext, 1, green)
 screen.blit(dlabel, (width/2-65, height/2-6))
