@@ -11,8 +11,7 @@ import time
 # -- initialization ------------------------------------------------------------
 # Start up pygame with init(), then create and assign our variables.
 pygame.init()
-
-# objects
+# -- objects --
 myfont = pygame.font.SysFont("monospace", 16)
 size = width, height = 640, 480
 screen = pygame.display.set_mode(size)
@@ -20,26 +19,26 @@ diameter = 8
 startx = starty = 0
 ballrect = pygame.Rect(startx, starty, diameter, diameter)
 trace = []
-
-# colors
+# -- colors --
 black = 0, 0, 0
 white = 255, 255, 255
 red = 255, 0, 0
 green = 0, 255, 0
-
-# forces
+# -- forces --
 friction = 0.02
 gravity = 4
-
-# velocity
+# -- velocity --
 Vx = 6.5
 Vy = 0
-
-# acceleration
+# -- acceleration --
 Ax = 0
 Ay = gravity
 
-# game loop
+# -- game loop -----------------------------------------------------------------
+# This loop iterates once per frame, and each frame should last slightly > 50ms.
+# First, we change the acceleration as necessary from friction; then, change the
+# velocity by the acceleration and finally, the position by velocity. We make
+# sure that the ball isn't offscreen, then we draw everything on the screen.
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -77,8 +76,8 @@ while 1:
         Vy = -Vy + Ay
         ballrect.bottom = height
 
-    # draw the black background, then the red trace dots, then the ball's
-    # velocity and acceleration, then the ball itself
+    # draw the black background, then the red trace dots, then
+    # the ball's velocity and acceleration, then the ball itself
     screen.fill(black)
     trace.append(ballrect.center)
     for dot in trace:
